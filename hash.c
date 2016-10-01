@@ -4,7 +4,7 @@
 #include "hash.h"
 #include "f_hash.c"
 
-#define TAM_INICIAL 100
+#define TAM_INICIAL 127
 //LE VOY A PONER G A TODAS LAS DOCUMENTACIONES QUE HICE YO, TRATA DE PONERLE L A LAS TUYAS
 //Son documentaciones para nosotros, y hay que borrarlas para la entrega
 
@@ -49,7 +49,7 @@ hash_t *hash_crear(hash_destruir_dato_t destruir_dato){
     }
 
     //PONE TODOS LOS ESTADOS EN VACIO L
-    for(int i = 0; i < 100; i++){
+    for(int i = 0; i < TAM _INICIAL; i++){
         hash->tabla[i].estado = VACIO;
     }
 
@@ -66,6 +66,29 @@ size_t hash_cantidad(const hash_t *hash){
 
 //Devuelve si la clave pertenece o no al hash
 bool hash_pertenece(const hash_t *hash, const char *clave);
+
+bool hash_redimensionar(hash_t *hash, size_t tam_nuevo);
+
+
+bool hash_guardar(hash_t *hash, const char *clave, void *dato){
+    if(hash->cantidad>=pila->tamanio){
+        if(!hash_redimensionar(hash, hash->tamanio*2){
+            return false;
+			}
+		}
+     indice = hashing(clave); //No se como aplicar bien la funcion G
+     hash->tabla[indice]->dato = dato;
+     hash->tabla[indice].estado = VACIO;
+     hash->cantidad++;
+     return true;
+    }
+         
+           
+           
+        
+    
+    
+    
 
 
 
