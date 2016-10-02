@@ -76,7 +76,7 @@ bool hash_guardar(hash_t *hash, const char *clave, void *dato){
             return false;
 			}
 		}
-     indice = hashing(clave); //No se como aplicar bien la funcion G
+     indice = stringToHash(clave, hash->tamanio); //No se como aplicar bien la funcion G
      hash->tabla[indice]->dato = dato;
      hash->tabla[indice].estado = VACIO;
      hash->cantidad++;
