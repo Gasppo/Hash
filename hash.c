@@ -78,7 +78,42 @@ bool hash_pertenece(const hash_t *hash, const char *clave){
 	 
 
 
-bool hash_redimensionar(hash_t *hash, size_t tam_nuevo);
+bool hash_redimensionar(hash_t *hash, size_t tam_nuevo){
+        //Creo un hash auxiliar G
+	hash_t* hash_nuevo = hash_crear(hash->destruir_dato);
+	if (hash_nuevo == NULL){ 
+		return false;
+	}
+	hash_nuevo->tamanio = tam_nuevo;
+	
+	//Para asegurarme de que la tabla nueva va estar vacia G
+	free(hash_nuevo->tabla);
+	//Asigno memoria para el tamaño nuevo al hash auxiliar G
+	hash_nuevo->tabla = malloc(tam_nuevo, sizeof(nodo_hash_t));
+	if (hash_nuevo->tabla == NULL) {
+		free(hash_nuevo);
+		return false;
+	}
+	//Hasheo  el hash auxiliar con los valores del hash original G
+	for (int pos = 0; pos < hash->tamanio; pos++) {
+		if (hash->tabla[pos]->estado == OCUPADO){
+				hash_guardar(hash_nuevo, hash->tabla[pos]->clave, hash->tabla[pos]->dato);
+		}
+		        //Destruyo ambos valores para poder reemplazar luego con los del hash_nuevo G
+			free(hash->tabla[i]->clave);
+			free(hash->tabla[i]);
+		
+	}
+	
+	//Destruyo la tabla original y la reemplazo con el hash_nuevo que ya tiene adentro los mismos elementos y mas memoria alocada G
+	free(hash->tabla);
+	hash->tamanio = hash_nuevo->tamanio;
+	hash->tabla = hash_nuevo->tabla;
+	hash->cantidad = hash_nuevo->cantidad;
+	//Destruyo el hash auxiliar G
+	free(hash_nuevo);
+	return true;
+}
 
 
 bool hash_guardar(hash_t *hash, const char *clave, void *dato){
