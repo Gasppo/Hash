@@ -65,24 +65,43 @@ size_t hash_cantidad(const hash_t *hash){
 }
 
 //Devuelve si la clave pertenece o no al hash
-bool hash_pertenece(const hash_t *hash, const char *clave);
+bool hash_pertenece(const hash_t *hash, const char *clave){
+	if (hash->cantidad == 0){
+		return false;
+	}
+	int pos = stringToHash(clave, hash->tamanio);
+	if(hash->tabla[pos].estado == VACIO || hash->tabla[pos].estado == BORRADO){
+		return false;
+	}
+	return true;
+}
+	 
+
 
 bool hash_redimensionar(hash_t *hash, size_t tam_nuevo);
 
 
 bool hash_guardar(hash_t *hash, const char *clave, void *dato){
-    if(hash->cantidad>=pila->tamanio){
+	if(hash->cantidad>=pila->tamanio){
         if(!hash_redimensionar(hash, hash->tamanio*2){
             return false;
 			}
 		}
-     indice = stringToHash(clave, hash->tamanio); //No se como aplicar bien la funcion G
-     hash->tabla[indice]->dato = dato;
-     hash->tabla[indice].estado = VACIO;
-     hash->cantidad++;
-     return true;
-    }
-         
+	int pos = stringToHash(clave, hash->tamanio); //No se como aplicar bien la funcion G 
+	if(hash_pertenece(hash, clave)){
+	    hash->destruir_dato(hash->tabla[pos]->dato);
+	    hash->tabla[pos]->dato = dato;
+	}
+	else{
+		hash->tabla[pos]->clave = clave;
+		hash->tabla[pos]->dato = dato;
+		hash->tabla[pos].estado = LLENO;
+		
+	}
+	   hash->cantidad++;
+	   return true;
+    }      
+        
            
            
         
@@ -104,7 +123,7 @@ bool hash_guardar(hash_t *hash, const char *clave, void *dato){
     nodo->dato = dato;
     nodo->estado = VACIO;
     return nodo;
-}*/
+}/*
 
 //----------------------Primitivas del iterador--------------------
 
