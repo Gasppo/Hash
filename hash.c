@@ -141,6 +141,9 @@ bool hash_guardar(hash_t *hash, const char *clave, void *dato){
     else{
         char *clave_duplicado = malloc(sizeof(char *));
         strcpy(clave_duplicado, clave);
+        while(hash->tabla[pos].estado == LLENO){
+            pos++;
+        }
         hash->tabla[pos].clave = clave_duplicado;
         hash->tabla[pos].dato = dato;
         hash->tabla[pos].estado = LLENO;
